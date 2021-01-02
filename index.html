@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>飞翔的小鸟</title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			#container{
+				width: 450px;
+				height: 596px;
+				/* border: 1px solid black; */
+				background: url(img/yolanda/bg.png);
+				position: relative;
+				margin: 0 auto;
+				overflow: hidden;
+			}
+			#head{
+				
+				position: absolute;
+				left:69px;
+				top:160px;
+				
+			}
+			#head img{
+				height:60px;
+			}
+			#head span{
+				width:55px;
+				height: 50px;
+				display: inline-block;
+				background-image: url(img/yolanda/1.png);
+                /* 绝对定位，默认是按照当前浏览器可视化窗口定位
+				 但是当他的外层有定位时该元素相对于外层元素定位*/
+				position: absolute;
+				top:-5px;
+				left:250px;
+			}
+			#scoring{
+				position: absolute;
+				left: 50%;
+				top:35px;
+				transform: translateX(-50%);
+				font-size: 50px;
+				z-index: 10;
+				display: block;
+			}
+			#menu{
+				position: absolute;
+				left:36%;
+				top:50%;
+			}
+			#menu img{
+				height:39px;
+			}
+			#day{
+				position: absolute;
+				top:50px;
+				font-size: 22px;
+				color: #444;
+				font-family: "幼圆";
+				font-weight: 700;
+				left:5px;
+				transition: 0.3s;
+			}
+			#night{
+				position: absolute;
+				top:50px;
+				font-size: 22px;
+				color: #444;
+				font-family: "幼圆";
+				font-weight: 700;
+				right: 0;
+				transition: 0.3s;
+			}
+			#day:hover{
+				color: #FFF;
+				font-size: 25px;
+			}
+			#night:hover{
+				color: #FFF;
+				font-size: 25px;
+			}
+			#moshi{
+				position: absolute;
+				top:65%;
+				left:50%;
+				transform: translateX(-50%);
+				background-color: rgba(0,197,194,0.4);
+				padding-left: 10px;
+				padding-right: 10px;
+			}
+			#simple{
+				font-size: 18px;
+				/* color: rgb(158,234,88); */
+				font-weight: 700;
+				font-family: "宋体";
+				color: #444;
+				margin: 8px;
+				transition: 0.3s;
+			}
+			#normal{
+				font-size: 18px;
+				/* color: rgb(158,234,88); */
+				font-weight: 700;
+				font-family: "宋体";
+				color: #fff;
+				margin: 8px;
+				transition: 0.3s;
+				
+			}
+			#evil{
+				font-size: 18px;
+				font-weight: 700;
+				font-family: "宋体";
+				color: #444;
+				margin: 8px;
+				transition: 0.3s;
+			}
+			#bird{
+				display: none;
+				position: absolute;
+				top:50px;
+				left: 50px;
+				z-index: 9;
+				/* border: 2px solid white; */
+			}
+			#ductWrap li{
+				width:94px;
+				height:499px;
+				list-style-type: none;
+				position: absolute;
+				left:500px;
+				top:0px;
+			}
+			.duct_up{
+				background: url("img/yolanda/mod2.png");
+				background-repeat: repeat-y;
+				height:120px;
+				position: relative;
+			}
+			.duct_up img{
+				position: absolute;
+				bottom:0;
+			}
+			.duct_down{
+				background: url("img/yolanda/mod2.png");
+				background-repeat: repeat-y;
+				height:200px;
+				position: absolute;
+				bottom: 0;	
+				width: 100%;
+			}
+			.duct_down img{
+				position: absolute;
+				top:0;
+			}
+			.duct_row{
+				/* border:2px solid red; */
+			}
+			
+			.die{
+				top:458px !important;
+				z-index: 99;
+				transition: 0.5s;
+			}
+			
+			.alive{
+				top:50px;
+				z-index: 9;
+			}
+			#gameover{
+				
+				position: absolute;
+				left: 40px;
+				top:150px;
+				display: none;
+				z-index: 99;
+				transition: 2s;
+			}
+			#gameover img{
+				height:100px;
+			}
+			#scoreBoard{
+				position: absolute;
+				left: 50%;
+				top:100px;
+				transform: translateX(-50%);
+				z-index: 100;
+				display: none;
+				transition: 2s;
+			}
+			#scoreBoard img{
+				height:200px;
+			}
+			#curScore{
+				position: absolute;
+				top:55px;
+				left:300px;
+				font-size: 30px;
+				color: darkgoldenrod;
+			}
+			#bestScore{
+				position: absolute;
+				top:130px;
+				left:300px;
+				font-size: 30px;
+				color: darkgoldenrod;
+			}
+			#newrecord{
+				position: absolute;
+				top:45px;
+				left:240px;
+				display:none;
+			}
+			#newrecord img{
+				height:55px;
+			}
+			#modal{
+				position: absolute;
+				top:75px;
+				left:45px;
+			}
+			#modal img{
+				height:75px;
+			}
+			
+			#musicBtn {
+				height: 40px;
+			}
+			#bgmControl{
+				position: absolute;
+				top: 20px;
+				left: 20px;
+				z-index: 99;
+			}
+
+            #again{
+				position: absolute;
+				top:360px;
+				left:50%;
+				transform: translateX(-50%);
+				display: none;
+				z-index: 99;
+			}
+			
+			#again img{
+				height:70px;
+			}
+			
+			#ready{
+				position: absolute;
+				left: 130px;
+				top:150px;
+				display: none;
+				z-index: 3;
+				transition: 1s;
+			}
+			#ready img{
+				height:70px;
+			}
+			
+			#tail{
+				position: absolute;
+				bottom:25px;
+				left:50%;
+				transform: translateX(-50%);
+				font-family: "幼圆";
+			}
+					
+		</style>
+	</head>
+	<body>
+		<!-- autoplay自动播放 preload页面加载完成后自动播放 -->
+		<audio src="music.mp3" autoplay="autoplay" loop id="bgm"></audio>
+		<audio src="mouse.mp3" id="audio1" autoplay="autoplay"></audio>
+		
+		<!-- 整个页面 -->
+		<div id="container">
+			<!-- 开始界面中间部分 -->
+			<div id="head">
+				<img src="img/yolanda/logo.png" >
+				<!-- header后面的小鸟 -->
+				<span></span>
+			</div>
+			<!-- 分数部分 -->
+			<div id="scoring">
+				0
+			</div>
+			<!-- 开始按钮 -->
+			<div id="menu">
+				<img src="img/yolanda/start_btn.png" id="start">
+				<div id="day">白天</div>
+				<div id="night">夜晚</div>
+				<!-- <a href="menu.html"><img src="img/yolanda/menu.png" ></a> -->
+			</div>
+			<!-- 飞翔的小鸟 -->
+			<div id="bird">
+				<img src="img/yolanda/down_bird.png"  >
+			</div>
+			<!-- 管道 -->
+			<ul id="ductWrap">
+				
+			</ul>
+			
+            <div id="gameover">
+				<img src="img/yolanda/gameover1.png" >
+			</div>
+			
+			<div id="scoreBoard">
+				<img src="img/yolanda/scoreBoard.png" >
+				<div id="curScore">
+					0
+				</div>
+				
+				<div id="bestScore">
+					0
+				</div>
+				<div id="newrecord">
+					<img src="img/yolanda/newRecord.png" >
+				</div>
+				<div id="modal">
+					<img src="img/yolanda/tongpai.png" id="modalImg">
+				</div>
+			</div>
+			
+
+			
+			<div id="bgmControl">
+				<img src="img/yolanda/music_Play.png" id="musicBtn" >
+			</div>
+			
+			<div id="again">
+				<img src="img/yolanda/again.png" >
+			</div>
+			
+			<div id="ready">
+				<img src="img/yolanda/ready.png" >
+			</div>
+			
+			
+			<div id="moshi">
+				<div id="simple">简单模式</div>
+				<div id="normal">正常模式</div>
+				<div id="evil">地狱模式</div>
+			</div>
+			<div id="tail">
+				通过鼠标点击让小鸟飞起来吧
+			</div>
+	</body>
+	<!-- 存放当前的js代码部分 -->
+	<script type="text/javascript">
+		// 游戏在点击start之后才开始
+		// 获取开始按钮
+		var startBtn = document.querySelector("#start");
+		var head = document.querySelector("#head");
+		var ductWrap = document.querySelector("#ductWrap");
+		var bird = document.querySelector("#bird");
+		var musicBtn = document.querySelector("#musicBtn");		
+		//获取分数
+		var score = document.querySelector("#scoring");
+		var cur_score = document.querySelector("#curScore");
+		var best_score = document.querySelector("#bestScore");
+		var new_record = document.querySelector("#newrecord");
+		var modal_img = document.querySelector("#modalImg");
+		
+		var ready = document.querySelector("#ready");
+		var gameover = document.querySelector("#gameover");
+		var againBtn = document.querySelector("#again");
+		
+		var audio1 = document.querySelector("#audio1");
+		var audio = document.querySelector("#bgm");
+		
+		var contain = document.querySelector("#container");
+		var dayBtn = document.querySelector("#day");
+        var nightBtn = document.querySelector("#night");
+		
+		var moshi = document.querySelector("#moshi");
+		var simple = document.querySelector("#simple");
+		var normal = document.querySelector("#normal");
+		var evil = document.querySelector("#evil");
+		var type = 2;//1简单 2正常 3地狱 
+		 
+		//创建管道定时器
+		var creatDuctTimer = null;
+		 
+		//是否能够删除管道移动定时器
+		var isDelTimer = false;	
+			
+		var isLive = false;			
+		var passCount = 0;		
+		var bgmBtnChange = "Play";
+		var middle = 150;
+		var time =3500;
+		
+		var yinpai = 10;
+		var jinpai = 30;
+		
+		var bestScoreModel=new Array();
+		bestScoreModel[1]=0;
+		bestScoreModel[2]=0;
+		bestScoreModel[3]=0;
+		
+		//js 点击事件
+		dayBtn.onclick =function(){
+			contain.style.background="url(img/yolanda/bg.png)";
+		}
+		nightBtn.onclick = function(){
+			contain.style.background="url(img/yolanda/nightBg2.png)";
+		}
+		simple.onclick = function(){
+			simple.style.color="#fff";
+			normal.style.color="#444";
+			evil.style.color="#444";
+			middle=170;
+			type=1;
+		}
+		evil.onclick = function(){
+			simple.style.color="#444";
+			normal.style.color="#444";
+			evil.style.color="#fff";
+			middle=110;
+			type=3;
+		}
+		normal.onclick = function(){
+			simple.style.color="#444";
+			normal.style.color="#fff";
+			evil.style.color="#444";
+			middle=150;
+			type=2;
+		}
+		
+		musicBtn.onclick = function(){
+			if(bgmBtnChange == "Play"){
+				audio.pause();
+				this.src="img/yolanda/music_Pause.png";
+				bgmBtnChange = "Pause";
+			}
+			else{
+				audio.play();
+				this.src="img/yolanda/music_Play.png";
+				bgmBtnChange = "Play";
+			}			
+		}
+		
+		againBtn.onclick = function(){
+			bird.style.display = "none";
+			bird.style.transition = "0s";
+			head.style.display="block";
+			startBtn.parentNode.style.display="block";
+			againBtn.style.display="none";
+			gameover.style.display="none";
+			scoreBoard.style.display="none";
+			new_record.style.display="none";
+			score.style.display="block";
+			moshi.style.display="block";
+			audio1.src="mouse.mp3";
+			
+			if(bgmBtnChange == "Play"){
+				audio.play();
+			}
+			score.innerHTML = 0;
+			while(ductWrap.hasChildNodes()){
+				ductWrap.removeChild(ductWrap.firstChild);
+			}
+			bird.style.top="50px";
+			//定时器
+			creatDuctTimer = null;
+		    bird.moveTimer = null;
+			//是否能够删除管道移动定时器
+			isDelTimer = false;		
+					
+			passCount = 0;	
+			isCrash = false;
+		}
+		
+		startBtn.onclick = function(){
+			
+			//页面中header和start消失
+			//隐藏按钮
+			head.style.display="none";
+			this.parentNode.style.display="none";
+			moshi.style.display="none";
+			//小鸟出现
+			bird.style.display="block";
+			isLive = true;	
+			
+			readyBlingTimer = setInterval(function(){
+				if(ready.style.display=="block"){
+					ready.style.display="none";
+				}
+				else{
+					ready.style.display="block";
+				}
+			},200);
+			
+			ready.displayTimer = setTimeout(function(){
+                clearInterval(readyBlingTimer);
+                ready.style.display="none";
+			},3300)
+			
+			//小鸟飞翔区域，设置小鸟飞翔速度，通过定时器让小鸟速度每0.3s+0.5
+			bird.speed = 0;
+			bird.moveTimer = setInterval(function(){
+				
+				bird.speed += 0.5;
+				//速度递增默认向下飞翔，速度为负即向上飞翔
+				if(bird.speed <= 0){
+					bird.children[0].src="img/yolanda/up_bird1.png";
+				}
+				else{
+					bird.children[0].src="img/yolanda/down_bird1.png";
+				}
+				//小鸟飞翔区域和状态，距顶部没有距离则不再飞翔，距底部没有距离则游戏结束、管道移动停止
+				//offsetTop：距顶部偏移值
+				if(bird.offsetTop <= 0){
+					bird.style.top = "0px";
+					
+				}
+				else if(bird.offsetTop >= 438){ 
+					bird.style.top = "438px";
+					//游戏结束，所有移动计时器清除
+					isLive = false;
+					clearInterval(bird.moveTimer);
+					clearInterval(creatDuctTimer);
+					isDelTimer = true;
+					
+					if(score.innerHTML>jinpai){
+						modal_img.src="img/yolanda/jinpai.png";
+					}
+					else if(score.innerHTML>yinpai){
+						modal_img.src="img/yolanda/yinpai.png";
+					}
+					else{
+						modal_img.src="img/yolanda/tongpai.png";
+					}
+					
+					//出现gameover
+					audio.currentTime = 0;
+					audio.pause();
+					gameover.style.display="block";
+					gameover.displayTimer = setTimeout(function(){
+			
+					    gameover.style.display="none";
+						cur_score.innerHTML = parseInt(score.innerHTML);
+						best_score.innerHTML = bestScoreModel[type];
+						if(cur_score.innerHTML>bestScoreModel[type]){
+							best_score.innerHTML=cur_score.innerHTML;
+							bestScoreModel[type]=cur_score.innerHTML;
+							new_record.style.display="block";
+							setTimeout(function(){
+								audio1.src="sahua.mp3";
+							},300);
+						}
+						
+						while(ductWrap.hasChildNodes()){
+							ductWrap.removeChild(ductWrap.firstChild);
+						}
+						
+						againBtn.style.display="block";
+						scoreBoard.style.display="block";
+						score.style.display="none";
+					},2000);
+					
+					ready.style.display="none";
+					clearInterval(readyBlingTimer);
+					audio1.src="die.mp3";
+				}
+				//小鸟在画面中的高度
+				bird.style.top = bird.offsetTop + bird.speed + "px";
+				
+				//小鸟碰撞检测
+				//获取到上下管道元素
+				var ductRow = document.querySelectorAll(".duct_row");
+				//只要管道出现则执行碰撞检测
+				for(var i = 0;i<ductRow.length;i++){
+					var isCrash = CrashFn(bird,ductRow[i]);
+					if(isCrash == true){
+						//游戏结束
+						isLive=false;
+						clearInterval(bird.moveTimer);
+						clearInterval(creatDuctTimer);
+						isDelTimer= true;
+						if(score.innerHTML>jinpai){
+							modal_img.src="img/yolanda/jinpai.png";
+						}
+						else if(score.innerHTML>yinpai){
+							modal_img.src="img/yolanda/yinpai.png";
+						}
+						else{
+							modal_img.src="img/yolanda/tongpai.png";
+						}
+						//出现gameover
+						audio.currentTime = 0;
+						audio.pause();
+						gameover.style.display="block";
+						gameover.displayTimer = setTimeout(function(){
+									
+						    gameover.style.display="none";
+							cur_score.innerHTML = parseInt(score.innerHTML);
+							best_score.innerHTML = bestScoreModel[type];
+							if(cur_score.innerHTML>bestScoreModel[type]){
+								best_score.innerHTML=cur_score.innerHTML;
+								bestScoreModel[type]=cur_score.innerHTML;
+								new_record.style.display="block";
+								setTimeout(function(){
+									audio1.src="sahua.mp3";
+								},300);
+							}
+							
+							againBtn.style.display="block";
+							while(ductWrap.hasChildNodes()){
+								ductWrap.removeChild(ductWrap.firstChild);
+							}
+							scoreBoard.style.display="block";
+							score.style.display="none";
+						},2000);
+						
+						ready.style.display="none";
+						clearInterval(readyBlingTimer);
+						
+						//小鸟坠地
+						audio1.src="collapse.mp3";
+						bird.style.top= "458px";
+						bird.style.transition= "0.5s";
+						isCrash = false;
+					}
+				}
+				
+			},30)
+			//控制小鸟飞翔
+			//onmousedown:鼠标按下状态  事件对象event
+			document.onmousedown = function(e){
+				//阻止鼠标点击时会出现的默认事件
+				var ev = e || window.event;
+				event.preventDefault();
+				//speed递减则小鸟向上
+				bird.speed = -5;
+				if(isLive == true){
+				     audio1.src="fly.mp3";
+				}
+				else
+				audio1.src="mouse.mp3";
+
+			}
+			
+			//随机函数 随机产生管道的高度
+			function randFn(min,max){
+				//parseInt 向下取整
+				return parseInt(Math.random() * (max-min+1) + min);
+			}
+			
+			//创建管道并移动
+			function ductManage(){
+				//创建li元素即每一根管道
+				var duct = document.createElement("li");
+				//上半截管道的高度
+				var upHeight = randFn(96,260);  
+				//下半截 页面可显示管道的高度为499 地面为97 
+				
+				if(type==2&&score.innerHTML>0&&score.innerHTML%10==0&&middle>=110){
+					middle -= 10;
+				}
+			
+				var downHeight = 499-upHeight-middle; 
+				//把管道添加到页面
+				//duct.innerHTML = '<div class = "duct_up duct_row" style="height:'+upHeight+'px "><img src="img/yolanda/upDuct.png"></div><div class="duct_down duct_row" style="height: '+downHeight'px"><img src="img/yolanda/downDuct.png"></div> ';
+				//duct.innerHTML = '<div class = "duct_up duct_row" style="height:'+ upHeight +'px"><img src="img/yolanda/upDuct.png"></div><div class="duct_down duct_row" style="height:'+downHeight+' px"><img src="img/yolanda/downDuct.png"></div>';
+				//duct.innerHTML = "<div class = "duct_up duct_row" style="height:'+ upHeight +'px"><img src="img/yolanda/upDuct.png"></div><div class="duct_down duct_row" style="height:'+downHeight+' px"><img src="img/yolanda/downDuct.png"></div>";
+				duct.innerHTML = '<div class="duct_up duct_row" style="height:'+ upHeight+'px "><img src="img/yolanda/upDuct.png"></div><div class="duct_down duct_row" style="height:'+downHeight+'px "><img src="img/yolanda/downDuct.png"></div>';
+				//定义管道初始位置
+				duct.l = 410;
+				//Bol元素用来判断是否加分
+				duct.scoreBol = true;
+				
+				//管道的移动 用循环定时器设置管道left不断递减
+				duct.moveTimer = setInterval(function(){
+					//每隔30ms向左位移3px
+					duct.l -= 3;
+					duct.style.left = duct.l + "px";
+					
+					//判断管道移出画面时清除管道并停止移动
+					//当小鸟通过柱子时分数+1
+					if(duct.l <= -94){
+						ductWrap.removeChild(duct);
+						clearInterval(duct.moveTimer);
+					}
+					else if(duct.l<= -47){
+						if(duct.scoreBol == true){
+							passCount += 1;
+							score.innerHTML = parseInt(score.innerHTML) + 1;
+						}
+						duct.scoreBol = false;
+					}
+					//小鸟死亡，定时器移除
+					if(isDelTimer==true){
+						clearInterval(duct.moveTimer);
+					}
+				},30)
+				//将管道添加到外层ul中
+				ductWrap.appendChild(duct);
+				
+			}
+			
+			//创建管道 在点击开始按钮之后，通过计时器创建
+			creatDuctTimer = setInterval(ductManage,time)		
+			
+			//碰撞检测
+			//获取小鸟和管道的位置
+			function CrashFn(obj1,obj2){
+				//获取小鸟距离左边的偏移值
+				var obj1Left = obj1.offsetLeft;
+				//获取小鸟水平方向右侧的位置
+				var obj1Right = obj1Left+obj1.offsetWidth;
+				//获取小鸟距离上边的偏移值
+				var obj1Top = obj1.offsetTop;
+				//获取小鸟垂直方向下侧的位置
+				var obj1Bottom = obj1Top+obj1.offsetHeight;
+				
+				var obj2Left = obj2.parentNode.offsetLeft;
+				var obj2Right = obj2Left+obj2.offsetWidth;
+				var obj2Top = obj2.offsetTop;
+				var obj2Bottom = obj2Top+obj2.offsetHeight;
+				if(obj1Right-obj2Left>=2 && obj1Bottom-obj2Top>=2 && obj1Left-obj2Right<=2 && obj1Top-obj2Bottom<=2){
+					//碰撞发生，游戏结束
+					return true;
+				}
+				else{
+					return false;
+				}				
+			}
+					
+		}
+		
+	</script>
+</html>
